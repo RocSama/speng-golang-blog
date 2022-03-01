@@ -28,12 +28,24 @@ func (t *TemplateBlog) WriteData(w io.Writer, data interface{}) {
 	}
 }
 
-func InitTemplate(templateDir string) HtmlTemplate {
-	tp := readTemplate(
-		[]string{"index", "category", "detail", "login", "pigeonhole", "writing"},
+func (t *TemplateBlog) WriteError(w io.Writer, err error) {
+	if err != nil {
+		_, err := w.Write([]byte(err.Error()))
+		if err != nil {
+			return
+		}
+	}
+}
+
+func InitTemplate(templateDir string) (HtmlTemplate, error) {
+	tp, err := readTemplate(
+		[]string{"index", "category", "custom", "detail", "login", "pigeonhole", "writing"},
 		templateDir,
 	)
 	var htmlTemplate HtmlTemplate
+	if err != nil {
+		return htmlTemplate, err
+	}
 	htmlTemplate.Index = tp[0]
 	htmlTemplate.Category = tp[1]
 	htmlTemplate.Custom = tp[2]
@@ -41,7 +53,7 @@ func InitTemplate(templateDir string) HtmlTemplate {
 	htmlTemplate.Login = tp[4]
 	htmlTemplate.Pigeonhole = tp[5]
 	htmlTemplate.Writing = tp[6]
-	return htmlTemplate
+	return htmlTemplate, nil
 }
 
 func IsODD(num int) bool {
@@ -56,7 +68,11 @@ func Date(layout string) string {
 	return time.Now().Format(layout)
 }
 
-func readTemplate(templates []string, templateDir string) []TemplateBlog {
+func DateDay(layout string) string {
+	return time.Now().Format(layout)
+}
+
+func readTemplate(templates []string, templateDir string) ([]TemplateBlog, error) {
 	var tbs []TemplateBlog
 	for _, view := range templates {
 		viewName := view + ".html"
@@ -68,14 +84,15 @@ func readTemplate(templates []string, templateDir string) []TemplateBlog {
 		personal := templateDir + "layout/personal.html"
 		post := templateDir + "layout/post-list.html"
 		pagination := templateDir + "layout/pagination.html"
-		t.Funcs(template.FuncMap{"isODD": IsODD, "getNextName": GerNextName, "date": Date})
+		t.Funcs(template.FuncMap{"isODD": IsODD, "getNextName": GerNextName, "date": Date, "dateDay": DateDay})
 		t, err := t.ParseFiles(templateDir+viewName, home, header, footer, personal, post, pagination)
 		if err != nil {
 			log.Println("解析模板出错：", err)
+			return nil, err
 		}
 		var tb TemplateBlog
 		tb.Template = t
 		tbs = append(tbs, tb)
 	}
-	return tbs
+	return tbs, nil
 }
