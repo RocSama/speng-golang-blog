@@ -23,3 +23,13 @@ func GetAllCategory() ([]models.Category, error) {
 	}
 	return categorys, nil
 }
+
+func GetCategoryNameById(cId int) string {
+	row := DB.QueryRow("SELECT name from blog_category WHERE cid=?", cId)
+	if row.Err() != nil {
+		log.Println(row.Err())
+	}
+	var categoryName string
+	row.Scan(&categoryName)
+	return categoryName
+}

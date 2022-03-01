@@ -68,8 +68,8 @@ func Date(layout string) string {
 	return time.Now().Format(layout)
 }
 
-func DateDay(layout string) string {
-	return time.Now().Format(layout)
+func DateDay(date time.Time) string {
+	return date.Format("2006-01-02 19:15:00")
 }
 
 func readTemplate(templates []string, templateDir string) ([]TemplateBlog, error) {
