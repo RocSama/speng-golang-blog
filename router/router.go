@@ -13,4 +13,9 @@ func Router() {
 	http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("public/resource/"))))
 	//category api
 	http.HandleFunc("/c/", views.HTML.Category)
+	//用户登录
+	http.HandleFunc("/login", views.HTML.Login)
+	//登录api
+	http.HandleFunc("/api/v1/login", api.API.Login)
+
 }
