@@ -11,6 +11,14 @@
     />
     <link rel="stylesheet" href="/resource/css/writing.css" />
     <link rel="icon" href="/resource/images/favicon.png" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="{{.CdnURL}}/js/cos-js-sdk-v5.min.js"></script>
+    <script src="https://cdn.staticfile.org/qiniu-js/3.4.0/qiniu.min.js"></script>
+    <script>
+      var CNDURL = "{{.CdnURL}}";
+    </script>
+    <script src="/resource/js/writing.js"></script>
+    <script src="/resource/js/editormd.js"></script>
     <title>写作 - {{.Title}}</title>
   </head>
   <body>
@@ -25,7 +33,7 @@
             <span class="publish-close">×</span>
             <h1 class="category-label">分类：</h1>
             <ul class="category category-style">
-              {{range $index, $elem := .categorys}}
+              {{range $index, $elem := .Category}}
               <li value="{{$elem.Cid}}">{{$elem.Name}}</li>
               {{end}}
             </ul>
@@ -47,12 +55,5 @@
     </header>
     <div id="editormd"></div>
   </body>
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script src="/resource/js/editormd.js"></script>
-  <script src="{{.CdnURL}}/js/cos-js-sdk-v5.min.js"></script>
-  <script src="https://cdn.staticfile.org/qiniu-js/3.4.0/qiniu.min.js"></script>
-  <script>
-    var CNDURL = "{{.CdnURL}}";
-  </script>
-  <script src="/resource/js/writing.js"></script>
+  
 </html>
