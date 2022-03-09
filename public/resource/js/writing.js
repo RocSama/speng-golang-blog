@@ -13,12 +13,13 @@ function initEditor() {
   // 取默认标题
   headInput.val(ArticleItem.title);
   // 初始化编辑器
+  
   MdEditor = editormd("editormd", {
     width: "99.5%",
     height: window.innerHeight - 78,
     syncScrolling: "single",
     editorTheme: "default",
-    path: CNDURL + "/lib/",
+    path: "/resource/lib/",
     placeholder: "",
     appendMarkdown: ArticleItem.markdown,
     codeFold: true,

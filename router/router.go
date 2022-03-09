@@ -23,4 +23,8 @@ func Router() {
 	//保存文章
 	http.HandleFunc("/api/v1/post", api.API.SaveAndUpdatePost)
 	http.HandleFunc("/api/v1/post/", api.API.GetPost)
+	//归档
+	http.HandleFunc("/pigeonhole", views.HTML.Pigeonhole)
+	//搜索
+	http.HandleFunc("/api/v1/post/search", api.API.SearchPost)
 }
